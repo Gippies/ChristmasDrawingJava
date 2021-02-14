@@ -18,7 +18,7 @@ public class ChristmasExclusionsFrame {
     private JButton btnClose;
     private JTable mainTable;
     private JScrollPane mainScrollPane;
-    private JButton btnExport;
+    private JButton btnImport;
     private JButton btnAddCol;
     private JButton btnRemoveCol;
     private JButton btnAddRow;
@@ -28,16 +28,26 @@ public class ChristmasExclusionsFrame {
 
     public ChristmasExclusionsFrame() {
 
-        String[] cols = {"Col 1", "Col2", "Col3"};
+        String[] cols = {"Names", "Excl 1", "Excl 2"};
         String[][] data = {
-                {"One", "Two", "TwoHalf"},
-                {"Three", "Four", "Five"}
+                {"Ron", "Mary Lou", ""},
+                {"Mary Lou", "Ron", ""}
         };
         joshTable = new JoshTable(data, cols);
         mainTable.setModel(joshTable.getTableModel());
 
+        btnAddRow.addActionListener(e -> {
+            joshTable.addRow();
+            mainTable.setModel(joshTable.getTableModel());
+        });
+
+        btnRemoveRow.addActionListener(e -> {
+            joshTable.removeLastRow();
+            mainTable.setModel(joshTable.getTableModel());
+        });
+
         btnAddCol.addActionListener(e -> {
-            joshTable.addColumn("New Column");
+            joshTable.addColumn();
             mainTable.setModel(joshTable.getTableModel());
         });
 
@@ -46,7 +56,7 @@ public class ChristmasExclusionsFrame {
             mainTable.setModel(joshTable.getTableModel());
         });
 
-        btnExport.addActionListener(e -> {
+        btnImport.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int returnValue = fileChooser.showOpenDialog(mainPanel);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -99,9 +109,9 @@ public class ChristmasExclusionsFrame {
         mainTable.setAutoResizeMode(0);
         mainTable.setSelectionBackground(new Color(-11833681));
         mainScrollPane.setViewportView(mainTable);
-        btnExport = new JButton();
-        btnExport.setText("Export File");
-        mainPanel.add(btnExport, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnImport = new JButton();
+        btnImport.setText("Import File");
+        mainPanel.add(btnImport, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         btnCalculate = new JButton();
         btnCalculate.setText("Calculate");
         mainPanel.add(btnCalculate, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));

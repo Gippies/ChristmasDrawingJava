@@ -20,17 +20,28 @@ public class JoshTable {
         this.columnNames.addAll(Arrays.asList(columnNames));
     }
 
-    public void addColumn(String columnHeader) {
-        columnNames.add(columnHeader);
+    public void addRow() {
+        data.add(new ArrayList<>());
+    }
+
+    public void removeLastRow() {
+        if (data.size() > 1)
+            data.remove(data.size() - 1);
+    }
+
+    public void addColumn() {
+        columnNames.add("Excl " + columnNames.size());
         for (List<String> datum : data) {
             datum.add("");
         }
     }
 
     public void removeLastColumn() {
-        columnNames.remove(columnNames.size() - 1);
-        for (List<String> datum : data) {
-            datum.remove(datum.size() - 1);
+        if (columnNames.size() > 1) {
+            columnNames.remove(columnNames.size() - 1);
+            for (List<String> datum : data) {
+                datum.remove(datum.size() - 1);
+            }
         }
     }
 
