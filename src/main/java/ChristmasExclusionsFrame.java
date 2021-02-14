@@ -12,7 +12,7 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.io.File;
 
-public class ChristmasDrawingFrame {
+public class ChristmasExclusionsFrame {
     private JPanel mainPanel;
     private JButton btnCalculate;
     private JButton btnClose;
@@ -26,7 +26,7 @@ public class ChristmasDrawingFrame {
 
     private final JoshTable joshTable;
 
-    public ChristmasDrawingFrame() {
+    public ChristmasExclusionsFrame() {
 
         String[] cols = {"Col 1", "Col2", "Col3"};
         String[][] data = {
