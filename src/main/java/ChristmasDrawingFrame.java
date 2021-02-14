@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.Color;
 import java.awt.Insets;
 import java.io.File;
@@ -20,19 +19,32 @@ public class ChristmasDrawingFrame {
     private JTable mainTable;
     private JScrollPane mainScrollPane;
     private JButton btnExport;
+    private JButton btnAddCol;
+    private JButton btnRemoveCol;
+    private JButton btnAddRow;
+    private JButton btnRemoveRow;
+
+    private final JoshTable joshTable;
 
     public ChristmasDrawingFrame() {
-
-        btnCalculate.setEnabled(false);
 
         String[] cols = {"Col 1", "Col2", "Col3"};
         String[][] data = {
                 {"One", "Two", "TwoHalf"},
                 {"Three", "Four", "Five"}
         };
-        TableModel model = new DefaultTableModel(data, cols);
+        joshTable = new JoshTable(data, cols);
+        mainTable.setModel(joshTable.getTableModel());
 
-        mainTable.setModel(model);
+        btnAddCol.addActionListener(e -> {
+            joshTable.addColumn("New Column");
+            mainTable.setModel(joshTable.getTableModel());
+        });
+
+        btnRemoveCol.addActionListener(e -> {
+            joshTable.removeLastColumn();
+            mainTable.setModel(joshTable.getTableModel());
+        });
 
         btnExport.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
@@ -40,7 +52,6 @@ public class ChristmasDrawingFrame {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 System.out.println(file.getName());
-                btnCalculate.setEnabled(true);
             }
         });
 
@@ -78,21 +89,34 @@ public class ChristmasDrawingFrame {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(4, 4, new Insets(0, 0, 0, 0), -1, -1));
         btnClose = new JButton();
         btnClose.setText("Close");
-        mainPanel.add(btnClose, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(btnClose, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         mainScrollPane = new JScrollPane();
-        mainPanel.add(mainScrollPane, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        mainPanel.add(mainScrollPane, new GridConstraints(0, 0, 2, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         mainTable = new JTable();
+        mainTable.setAutoResizeMode(0);
         mainTable.setSelectionBackground(new Color(-11833681));
         mainScrollPane.setViewportView(mainTable);
         btnExport = new JButton();
         btnExport.setText("Export File");
-        mainPanel.add(btnExport, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(btnExport, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         btnCalculate = new JButton();
         btnCalculate.setText("Calculate");
-        mainPanel.add(btnCalculate, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(btnCalculate, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnAddCol = new JButton();
+        btnAddCol.setText("Add Column");
+        mainPanel.add(btnAddCol, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnRemoveCol = new JButton();
+        btnRemoveCol.setText("Remove Column");
+        mainPanel.add(btnRemoveCol, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnAddRow = new JButton();
+        btnAddRow.setText("Add Row");
+        mainPanel.add(btnAddRow, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnRemoveRow = new JButton();
+        btnRemoveRow.setText("Remove Row");
+        mainPanel.add(btnRemoveRow, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
