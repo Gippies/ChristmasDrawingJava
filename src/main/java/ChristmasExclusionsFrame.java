@@ -1,5 +1,10 @@
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -10,7 +15,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import java.awt.Insets;
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChristmasExclusionsFrame {
     private JPanel mainPanel;
@@ -24,14 +32,14 @@ public class ChristmasExclusionsFrame {
     private JButton btnAddRow;
     private JButton btnRemoveRow;
 
-    private final JoshTable joshTable;
+    private JoshTable joshTable;
 
     public ChristmasExclusionsFrame() {
 
         String[] cols = {"Names", "Excl 1", "Excl 2"};
         String[][] data = {
-                {"Ron", "Mary Lou", ""},
-                {"Mary Lou", "Ron", ""}
+                {"Billy", "Bob", ""},
+                {"Joe", "Mark", ""}
         };
         joshTable = new JoshTable(data, cols);
         mainTable.setModel(joshTable.getTableModel());
@@ -60,8 +68,33 @@ public class ChristmasExclusionsFrame {
             JFileChooser fileChooser = new JFileChooser();
             int returnValue = fileChooser.showOpenDialog(mainPanel);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                System.out.println(file.getName());
+                try {
+                    FileInputStream excelFile = new FileInputStream(fileChooser.getSelectedFile());
+                    Workbook workbook = new XSSFWorkbook(excelFile);
+                    Sheet datatypeSheet = workbook.getSheetAt(0);
+
+                    List<List<String>> dataList = new ArrayList<>();
+
+                    for (Row currentRow : datatypeSheet) {
+                        List<String> temp = new ArrayList<>();
+                        for (Cell currentCell : currentRow) {
+                            temp.add(currentCell.getStringCellValue());
+                        }
+                        dataList.add(temp);
+                    }
+
+                    List<String> columnNames = new ArrayList<>();
+                    columnNames.add("Name");
+                    for (int i = 0; i < dataList.get(0).size() - 1; i++) {
+                        columnNames.add("Excl " + (i + 1));
+                    }
+
+                    joshTable = new JoshTable(dataList, columnNames);
+                    mainTable.setModel(joshTable.getTableModel());
+
+                } catch (IOException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
             }
         });
 

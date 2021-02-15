@@ -20,6 +20,11 @@ public class JoshTable {
         this.columnNames.addAll(Arrays.asList(columnNames));
     }
 
+    public JoshTable(List<List<String>> data, List<String> columnNames) {
+        this.data = data;
+        this.columnNames = columnNames;
+    }
+
     public void addRow() {
         data.add(new ArrayList<>());
     }
