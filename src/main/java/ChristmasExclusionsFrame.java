@@ -82,6 +82,7 @@ public class ChristmasExclusionsFrame {
                         }
                         dataList.add(temp);
                     }
+                    excelFile.close();
 
                     List<String> columnNames = new ArrayList<>();
                     columnNames.add("Name");
