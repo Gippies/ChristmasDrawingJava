@@ -32,7 +32,7 @@ public class ChristmasExclusionsFrame {
     private JButton btnAddRow;
     private JButton btnRemoveRow;
 
-    private JoshTable joshTable;
+    private DynamicTable dynamicTable;
 
     public ChristmasExclusionsFrame() {
 
@@ -41,27 +41,27 @@ public class ChristmasExclusionsFrame {
                 {"Billy", "Bob", ""},
                 {"Joe", "Mark", ""}
         };
-        joshTable = new JoshTable(data, cols);
-        mainTable.setModel(joshTable.getTableModel());
+        dynamicTable = new DynamicTable(data, cols);
+        mainTable.setModel(dynamicTable.getTableModel());
 
         btnAddRow.addActionListener(e -> {
-            joshTable.addRow();
-            mainTable.setModel(joshTable.getTableModel());
+            dynamicTable.addRow();
+            mainTable.setModel(dynamicTable.getTableModel());
         });
 
         btnRemoveRow.addActionListener(e -> {
-            joshTable.removeLastRow();
-            mainTable.setModel(joshTable.getTableModel());
+            dynamicTable.removeLastRow();
+            mainTable.setModel(dynamicTable.getTableModel());
         });
 
         btnAddCol.addActionListener(e -> {
-            joshTable.addColumn();
-            mainTable.setModel(joshTable.getTableModel());
+            dynamicTable.addColumn();
+            mainTable.setModel(dynamicTable.getTableModel());
         });
 
         btnRemoveCol.addActionListener(e -> {
-            joshTable.removeLastColumn();
-            mainTable.setModel(joshTable.getTableModel());
+            dynamicTable.removeLastColumn();
+            mainTable.setModel(dynamicTable.getTableModel());
         });
 
         btnImport.addActionListener(e -> {
@@ -90,8 +90,8 @@ public class ChristmasExclusionsFrame {
                         columnNames.add("Excl " + (i + 1));
                     }
 
-                    joshTable = new JoshTable(dataList, columnNames);
-                    mainTable.setModel(joshTable.getTableModel());
+                    dynamicTable = new DynamicTable(dataList, columnNames);
+                    mainTable.setModel(dynamicTable.getTableModel());
 
                 } catch (IOException fileNotFoundException) {
                     fileNotFoundException.printStackTrace();

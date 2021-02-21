@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class JoshTable {
+public class DynamicTable {
 
     private final List<String> columnNames;
     private final List<List<String>> data;
 
-    public JoshTable(String[][] data, String[] columnNames) {
+    public DynamicTable(String[][] data, String[] columnNames) {
         this.data = new ArrayList<>();
         this.columnNames = new ArrayList<>();
 
@@ -20,7 +20,7 @@ public class JoshTable {
         this.columnNames.addAll(Arrays.asList(columnNames));
     }
 
-    public JoshTable(List<List<String>> data, List<String> columnNames) {
+    public DynamicTable(List<List<String>> data, List<String> columnNames) {
         this.data = data;
         this.columnNames = columnNames;
     }
