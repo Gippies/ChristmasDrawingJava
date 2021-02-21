@@ -12,13 +12,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import java.awt.Insets;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChristmasExclusionsFrame {
     private JPanel mainPanel;
@@ -36,12 +37,12 @@ public class ChristmasExclusionsFrame {
 
     public ChristmasExclusionsFrame() {
 
-        String[] cols = {"Names", "Excl 1", "Excl 2"};
-        String[][] data = {
-                {"Billy", "Bob", ""},
-                {"Joe", "Mark", ""}
+        String[] tempCols = {"Names", "Excl 1"};
+        String[][] tempData = {
+                {"Billy", "Bob"},
+                {"Joe", "Mark"}
         };
-        dynamicTable = new DynamicTable(data, cols);
+        dynamicTable = new DynamicTable(tempData, tempCols);
         mainTable.setModel(dynamicTable.getTableModel());
 
         btnAddRow.addActionListener(e -> {
@@ -100,12 +101,19 @@ public class ChristmasExclusionsFrame {
         });
 
         btnCalculate.addActionListener(e -> {
-            String[] cols2 = {"Person", "Exclusion"};
-            String[][] data2 = {
-                    {"Ron", "Josh"},
-                    {"Mary Lou", "Aaron"}
-            };
-            mainTable.setModel(new DefaultTableModel(data2, cols2));
+            dynamicTable.setTableModel(mainTable.getModel());
+            List<List<String>> dynamicTableData = dynamicTable.getData();
+            Map<String, List<String>> dynamicTableMap = new HashMap<>();
+            for (List<String> dynamicTableRow : dynamicTableData) {
+                List<String> exclusionList = new ArrayList<>(dynamicTableRow.size() - 1);
+                for (int j = 1; j < dynamicTableRow.size(); j++) {
+                    if (dynamicTableRow.get(j) != null && !dynamicTableRow.get(j).equals(""))
+                        exclusionList.add(dynamicTableRow.get(j));
+                }
+                dynamicTableMap.put(dynamicTableRow.get(0), exclusionList);
+            }
+            // TODO: Do stuff with the hashmap
+            System.out.println(dynamicTableMap);
         });
 
         btnClose.addActionListener(e -> {

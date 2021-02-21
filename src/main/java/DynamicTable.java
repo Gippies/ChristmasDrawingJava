@@ -6,8 +6,8 @@ import java.util.List;
 
 public class DynamicTable {
 
-    private final List<String> columnNames;
-    private final List<List<String>> data;
+    private List<String> columnNames;
+    private List<List<String>> data;
 
     public DynamicTable(String[][] data, String[] columnNames) {
         this.data = new ArrayList<>();
@@ -50,9 +50,13 @@ public class DynamicTable {
         }
     }
 
+    public List<List<String>> getData() {
+        return data;
+    }
+
     public TableModel getTableModel() {
         String[] tableCols = new String[columnNames.size()];
-        String[][] tableData = new String[data.size()][data.get(0).size()];
+        String[][] tableData = new String[data.size()][columnNames.size()];
         for (int i = 0; i < columnNames.size(); i++) {
             tableCols[i] = columnNames.get(i);
         }
@@ -64,6 +68,20 @@ public class DynamicTable {
         }
 
         return new DefaultTableModel(tableData, tableCols);
+    }
+
+    public void setTableModel(TableModel model) {
+        data = new ArrayList<>();
+        columnNames = new ArrayList<>();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            data.add(new ArrayList<>());
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                data.get(i).add((String) model.getValueAt(i, j));
+                if (i == 0) {
+                    columnNames.add(model.getColumnName(j));
+                }
+            }
+        }
     }
 
 }
