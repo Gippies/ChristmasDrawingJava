@@ -35,7 +35,7 @@ public class ChristmasExclusionsFrame {
 
     private DynamicTable dynamicTable;
 
-    public ChristmasExclusionsFrame() {
+    public ChristmasExclusionsFrame(ChristmasDrawing christmasDrawing) {
 
         String[] tempCols = {"Names", "Excl 1"};
         String[][] tempData = {
@@ -112,8 +112,10 @@ public class ChristmasExclusionsFrame {
                 }
                 dynamicTableMap.put(dynamicTableRow.get(0), exclusionList);
             }
-            // TODO: Do stuff with the hashmap
-            System.out.println(dynamicTableMap);
+
+            christmasDrawing.getPairingRandomizer().setExclusionMap(dynamicTableMap);
+            christmasDrawing.getPairingRandomizer().randomize();
+            christmasDrawing.getPairingFrame().setVisible(true);
         });
 
         btnClose.addActionListener(e -> {
