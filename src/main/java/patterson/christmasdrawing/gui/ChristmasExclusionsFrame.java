@@ -1,3 +1,5 @@
+package patterson.christmasdrawing.gui;
+
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import org.apache.poi.ss.usermodel.Cell;
@@ -5,6 +7,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import patterson.christmasdrawing.ChristmasDrawing;
+import patterson.christmasdrawing.util.DynamicTable;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;

@@ -1,3 +1,9 @@
+package patterson.christmasdrawing;
+
+import patterson.christmasdrawing.gui.ChristmasExclusionsFrame;
+import patterson.christmasdrawing.gui.ChristmasPairingsFrame;
+import patterson.christmasdrawing.util.PairingRandomizer;
+
 import javax.swing.JFrame;
 
 public class ChristmasDrawing {

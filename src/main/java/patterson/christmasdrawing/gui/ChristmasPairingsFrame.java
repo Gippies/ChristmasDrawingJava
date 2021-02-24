@@ -1,3 +1,5 @@
+package patterson.christmasdrawing.gui;
+
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
