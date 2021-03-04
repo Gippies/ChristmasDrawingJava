@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import patterson.christmasdrawing.ChristmasDrawing;
 import patterson.christmasdrawing.util.DynamicTable;
+import patterson.christmasdrawing.util.PairingRandomizer;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -117,8 +118,10 @@ public class ChristmasExclusionsFrame {
                 dynamicTableMap.put(dynamicTableRow.get(0), exclusionList);
             }
 
-            christmasDrawing.getPairingRandomizer().setExclusionMap(dynamicTableMap);
-            christmasDrawing.getPairingRandomizer().randomize();
+            PairingRandomizer randomizer = christmasDrawing.getPairingRandomizer();
+            randomizer.setExclusionMap(dynamicTableMap);
+            Map<String, String> pairMap = randomizer.randomize();
+            christmasDrawing.setPairingFramePairMap(pairMap);
             christmasDrawing.getPairingFrame().setVisible(true);
         });
 

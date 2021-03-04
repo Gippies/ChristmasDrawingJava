@@ -5,15 +5,18 @@ import patterson.christmasdrawing.gui.ChristmasPairingsFrame;
 import patterson.christmasdrawing.util.PairingRandomizer;
 
 import javax.swing.JFrame;
+import java.util.Map;
 
 public class ChristmasDrawing {
 
     private final JFrame pairingFrame;
     private final PairingRandomizer pairingRandomizer;
+    private final ChristmasPairingsFrame christmasPairingsFrame;
 
     public ChristmasDrawing() {
         pairingFrame = new JFrame("Pairings");
-        pairingFrame.setContentPane(new ChristmasPairingsFrame().getMainPanel());
+        christmasPairingsFrame = new ChristmasPairingsFrame();
+        pairingFrame.setContentPane(christmasPairingsFrame.getMainPanel());
         pairingFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         pairingFrame.pack();
 
@@ -24,6 +27,10 @@ public class ChristmasDrawing {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public void setPairingFramePairMap(Map<String, String> pairMap) {
+        christmasPairingsFrame.setTableContents(pairMap);
     }
 
     public JFrame getPairingFrame() {

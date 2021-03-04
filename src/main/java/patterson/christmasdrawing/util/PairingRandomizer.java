@@ -8,18 +8,16 @@ import java.util.Map;
 
 public class PairingRandomizer {
     private Map<String, List<String>> exclusionMap;
-    private Map<String, String> resultMap;
 
     public PairingRandomizer() {
         exclusionMap = new HashMap<>();
-        resultMap = new HashMap<>();
     }
 
     public void setExclusionMap(Map<String, List<String>> exclusionMap) {
         this.exclusionMap = exclusionMap;
     }
 
-    public void randomize() {
+    public Map<String, String> randomize() {
         List<String> nameList = new ArrayList<>(exclusionMap.keySet());
         List<String> pairingList = new ArrayList<>(nameList);
         boolean paired = false;
@@ -36,8 +34,10 @@ public class PairingRandomizer {
             }
         }
 
-
-        System.out.println(nameList);
-        System.out.println(pairingList);
+        Map<String, String> resultMap = new HashMap<>();
+        for (int i = 0; i < nameList.size(); i++) {
+            resultMap.put(nameList.get(i), pairingList.get(i));
+        }
+        return resultMap;
     }
 }

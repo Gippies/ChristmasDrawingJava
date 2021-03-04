@@ -2,6 +2,7 @@ package patterson.christmasdrawing.gui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import patterson.christmasdrawing.util.DynamicTable;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -10,6 +11,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class ChristmasPairingsFrame {
     private JPanel mainPanel;
@@ -22,6 +27,17 @@ public class ChristmasPairingsFrame {
         btnClose.addActionListener(e -> {
             SwingUtilities.getRoot(mainPanel).setVisible(false);
         });
+    }
+
+    public void setTableContents(Map<String, String> pairMap) {
+        List<List<String>> dataList = new ArrayList<>();
+        List<String> columnNames = Arrays.asList("Person A", "Person B");
+        for (Map.Entry<String, String> entry : pairMap.entrySet()) {
+            dataList.add(Arrays.asList(entry.getKey(), entry.getValue()));
+        }
+
+        DynamicTable dynamicTable = new DynamicTable(dataList, columnNames);
+        mainTable.setModel(dynamicTable.getTableModel());
     }
 
     public JPanel getMainPanel() {
