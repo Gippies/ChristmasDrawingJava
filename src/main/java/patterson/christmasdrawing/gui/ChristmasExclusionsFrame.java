@@ -81,10 +81,14 @@ public class ChristmasExclusionsFrame {
 
                     List<List<String>> dataList = new ArrayList<>();
 
+                    int largestWidth = 0;
                     for (Row currentRow : datatypeSheet) {
                         List<String> temp = new ArrayList<>();
                         for (Cell currentCell : currentRow) {
                             temp.add(currentCell.getStringCellValue());
+                        }
+                        if (temp.size() > largestWidth) {
+                            largestWidth = temp.size();
                         }
                         dataList.add(temp);
                     }
@@ -92,7 +96,7 @@ public class ChristmasExclusionsFrame {
 
                     List<String> columnNames = new ArrayList<>();
                     columnNames.add("Name");
-                    for (int i = 0; i < dataList.get(0).size() - 1; i++) {
+                    for (int i = 0; i < largestWidth - 1; i++) {
                         columnNames.add("Excl " + (i + 1));
                     }
 
