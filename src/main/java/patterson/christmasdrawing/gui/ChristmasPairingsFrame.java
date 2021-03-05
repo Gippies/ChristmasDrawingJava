@@ -12,6 +12,7 @@ import patterson.christmasdrawing.util.DynamicTable;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,6 +35,11 @@ public class ChristmasPairingsFrame {
     private JButton btnExport;
 
     public ChristmasPairingsFrame() {
+        JFrame exportCompleteFrame = new JFrame("Export Complete!");
+        exportCompleteFrame.setContentPane(new ExportCompleteFrame().getMainPanel());
+        exportCompleteFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        exportCompleteFrame.pack();
+
         btnClose.addActionListener(e -> {
             SwingUtilities.getRoot(mainPanel).setVisible(false);
         });
@@ -61,6 +67,8 @@ public class ChristmasPairingsFrame {
             if (state == JFileChooser.APPROVE_OPTION) {
                 try (FileOutputStream outputStream = new FileOutputStream(fileChooser.getSelectedFile().getAbsolutePath() + ".xlsx")) {
                     workbook.write(outputStream);
+                    exportCompleteFrame.setLocationRelativeTo(mainPanel);
+                    exportCompleteFrame.setVisible(true);
                 } catch (IOException fileNotFoundException) {
                     fileNotFoundException.printStackTrace();
                 }
