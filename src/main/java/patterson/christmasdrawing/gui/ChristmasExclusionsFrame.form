@@ -8,14 +8,6 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="db9ea" class="javax.swing.JButton" binding="btnClose">
-        <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Close"/>
-        </properties>
-      </component>
       <scrollpane id="e7053" binding="mainScrollPane">
         <constraints>
           <grid row="0" column="0" row-span="2" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -78,6 +70,22 @@
         </constraints>
         <properties>
           <text value="Remove Row"/>
+        </properties>
+      </component>
+      <component id="db9ea" class="javax.swing.JButton" binding="btnClose">
+        <constraints>
+          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Close"/>
+        </properties>
+      </component>
+      <component id="ae251" class="javax.swing.JButton" binding="btnExport">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Export Table"/>
         </properties>
       </component>
     </children>

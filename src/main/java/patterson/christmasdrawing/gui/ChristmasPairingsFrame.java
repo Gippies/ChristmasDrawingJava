@@ -34,11 +34,7 @@ public class ChristmasPairingsFrame {
     private JButton btnClose;
     private JButton btnExport;
 
-    public ChristmasPairingsFrame() {
-        JFrame exportCompleteFrame = new JFrame("Export Complete!");
-        exportCompleteFrame.setContentPane(new ExportCompleteFrame().getMainPanel());
-        exportCompleteFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        exportCompleteFrame.pack();
+    public ChristmasPairingsFrame(JFrame exportCompleteFrame) {
 
         btnClose.addActionListener(e -> {
             SwingUtilities.getRoot(mainPanel).setVisible(false);

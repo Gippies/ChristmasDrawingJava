@@ -14,12 +14,16 @@ import patterson.christmasdrawing.util.PairingRandomizer;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
 import java.awt.Color;
 import java.awt.Insets;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +41,11 @@ public class ChristmasExclusionsFrame {
     private JButton btnRemoveCol;
     private JButton btnAddRow;
     private JButton btnRemoveRow;
+    private JButton btnExport;
 
     private DynamicTable dynamicTable;
 
-    public ChristmasExclusionsFrame(ChristmasDrawing christmasDrawing) {
+    public ChristmasExclusionsFrame(ChristmasDrawing christmasDrawing, JFrame exportCompleteFrame) {
 
         String[] tempCols = {"Names", "Excl 1"};
         String[][] tempData = {
@@ -109,6 +114,37 @@ public class ChristmasExclusionsFrame {
             }
         });
 
+        btnExport.addActionListener(e -> {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Exclusions");
+            TableModel tableModel = mainTable.getModel();
+
+            tableModel.getValueAt(0, 0);
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                Row row = sheet.createRow(i);
+                for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                    Cell cell = row.createCell(j);
+                    cell.setCellValue((String) tableModel.getValueAt(i, j));
+                }
+            }
+
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter xlsxFilter = new FileNameExtensionFilter("xlsx files (*.xlsx)", "xlsx");
+            fileChooser.addChoosableFileFilter(xlsxFilter);
+            fileChooser.setFileFilter(xlsxFilter);
+            int state = fileChooser.showSaveDialog(mainPanel);
+
+            if (state == JFileChooser.APPROVE_OPTION) {
+                try (FileOutputStream outputStream = new FileOutputStream(fileChooser.getSelectedFile().getAbsolutePath() + ".xlsx")) {
+                    workbook.write(outputStream);
+                    exportCompleteFrame.setLocationRelativeTo(mainPanel);
+                    exportCompleteFrame.setVisible(true);
+                } catch (IOException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+            }
+        });
+
         btnCalculate.addActionListener(e -> {
             dynamicTable.setTableModel(mainTable.getModel());
             List<List<String>> dynamicTableData = dynamicTable.getData();
@@ -155,9 +191,6 @@ public class ChristmasExclusionsFrame {
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayoutManager(4, 4, new Insets(0, 0, 0, 0), -1, -1));
-        btnClose = new JButton();
-        btnClose.setText("Close");
-        mainPanel.add(btnClose, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         mainScrollPane = new JScrollPane();
         mainPanel.add(mainScrollPane, new GridConstraints(0, 0, 2, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         mainTable = new JTable();
@@ -182,6 +215,12 @@ public class ChristmasExclusionsFrame {
         btnRemoveRow = new JButton();
         btnRemoveRow.setText("Remove Row");
         mainPanel.add(btnRemoveRow, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnClose = new JButton();
+        btnClose.setText("Close");
+        mainPanel.add(btnClose, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnExport = new JButton();
+        btnExport.setText("Export Table");
+        mainPanel.add(btnExport, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
