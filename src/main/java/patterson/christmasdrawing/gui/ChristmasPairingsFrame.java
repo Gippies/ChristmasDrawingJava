@@ -2,6 +2,11 @@ package patterson.christmasdrawing.gui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import patterson.christmasdrawing.util.DynamicTable;
 
 import javax.swing.JButton;
@@ -10,7 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.TableModel;
 import java.awt.Insets;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +34,27 @@ public class ChristmasPairingsFrame {
     public ChristmasPairingsFrame() {
         btnClose.addActionListener(e -> {
             SwingUtilities.getRoot(mainPanel).setVisible(false);
+        });
+
+        btnExport.addActionListener(e -> {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Christmas Pairs");
+            TableModel tableModel = mainTable.getModel();
+
+            tableModel.getValueAt(0, 0);
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                Row row = sheet.createRow(i);
+                for (int j = 0; j < 2; j++) {
+                    Cell cell = row.createCell(j);
+                    cell.setCellValue((String) tableModel.getValueAt(i, j));
+                }
+            }
+
+            try (FileOutputStream outputStream = new FileOutputStream("ChristmasPairings.xlsx")) {
+                workbook.write(outputStream);
+            } catch (IOException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
         });
     }
 
