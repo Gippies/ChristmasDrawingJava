@@ -11,10 +11,12 @@ import patterson.christmasdrawing.util.DynamicTable;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 import java.awt.Insets;
 import java.io.FileOutputStream;
@@ -50,10 +52,18 @@ public class ChristmasPairingsFrame {
                 }
             }
 
-            try (FileOutputStream outputStream = new FileOutputStream("ChristmasPairings.xlsx")) {
-                workbook.write(outputStream);
-            } catch (IOException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter xlsxFilter = new FileNameExtensionFilter("xlsx files (*.xlsx)", "xlsx");
+            fileChooser.addChoosableFileFilter(xlsxFilter);
+            fileChooser.setFileFilter(xlsxFilter);
+            int state = fileChooser.showSaveDialog(mainPanel);
+
+            if (state == JFileChooser.APPROVE_OPTION) {
+                try (FileOutputStream outputStream = new FileOutputStream(fileChooser.getSelectedFile().getAbsolutePath() + ".xlsx")) {
+                    workbook.write(outputStream);
+                } catch (IOException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
             }
         });
     }
